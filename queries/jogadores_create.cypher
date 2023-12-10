@@ -3845,5 +3845,5 @@
    CREATE(pablo_dyego:Jogador{nome: "Pablo Dyego"})
 
 
-   CREATE(anderson_leite_moraes:Jogador{nome: "Anderson Leite Moraes"})
+   CREATE(anderson_leite_moraes:Jogador{nome: "Anderson Leite Moraes"});
 
