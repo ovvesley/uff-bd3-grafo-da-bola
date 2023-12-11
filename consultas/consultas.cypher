@@ -64,3 +64,20 @@ LIMIT 1
 MATCH (jogador:Jogador)-[rel:ELENCO_DE]->(time:Time {nome: "Fluminense"})
 RETURN jogador, rel, time
 
+
+//Quais foram os 5 jogadores que mais fizeram gols pelo Fluminense? Quantos gols eles fizeram?
+MATCH (jogador:Jogador)-[fezGol:FEZ_GOL]->(partida:Partida)
+WHERE (jogador)-[:ELENCO_DE]->(:Time {nome: "Fluminense"})
+WITH jogador, COUNT(*) AS TotalGols, COLLECT({relacao: fezGol, partida: partida}) AS relacoesFezGol
+ORDER BY TotalGols DESC
+LIMIT 5
+RETURN jogador, TotalGols, relacoesFezGol
+
+
+//Qual jogador mais fez gols em times diferentes na sua carreira?
+MATCH (j:Jogador)-[:FEZ_GOL]->(p:Partida), (j)-[:ELENCO_DE]->(t:Time)
+WHERE (t)-[:MANDANTE|VISITANTE]->(p)
+WITH j, COUNT(DISTINCT t) AS times, COLLECT(t) as times_jogados
+ORDER BY times DESC
+LIMIT 1
+RETURN j, times, times_jogados
